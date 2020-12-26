@@ -9,7 +9,7 @@ import axios from 'axios';
 export default class Weather extends React.Component{
  
     state={
-        city:"P",
+        city:"Pokhara",
         weatherData:"",
     }
 
@@ -19,7 +19,9 @@ export default class Weather extends React.Component{
            city:e.target.value
         })
     }
-
+    componentDidMount(){
+        this.getWeatherData();
+    }
     componentDidUpdate() {
         this.getWeatherData();
     }
@@ -30,16 +32,30 @@ export default class Weather extends React.Component{
     }
 
     getWeatherData=()=>{
-      this.fetchWeather(this.state.city).then((res)=>{
-          if(res){
-            this.setState({
-                weatherData:res.data,
-            })
-          }else{
-             console.log("Error not found")
-          }
-          
-      }).catch(err=>console.log(err))
+      if(this.state.city!==""){
+        this.fetchWeather(this.state.city).then((res)=>{
+            if(res){
+              this.setState({
+                  weatherData:res.data,
+              })
+            }else{
+               console.log("Error not found")
+            }
+            
+        }).catch(err=>console.log(err))
+      }else{
+        this.fetchWeather("Pokhara").then((res)=>{
+            if(res){
+              this.setState({
+                  weatherData:res.data,
+              })
+            }else{
+               console.log("Error not found")
+            }
+            
+        }).catch(err=>console.log(err))
+      } 
+      
     }
 
     render(){
